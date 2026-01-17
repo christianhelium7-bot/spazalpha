@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>SpaceAlpha – Full GitHub Edition</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style>
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#05070d;color:#e6ebff}
+header{background:#0b1030;padding:12px 20px;font-size:20px;font-weight:bold}
+#layout{display:grid;grid-template-columns:260px 1fr 320px;height:calc(100vh - 48px)}
+#sidebar,#rightbar{background:#0a0f26;padding:12px;overflow:auto}
+#main{padding:12px;overflow:auto}
+button{background:#1b2a6b;color:#fff;border:none;border-radius:6px;padding:6px 10px;margin:4px 0;cursor:pointer}
+button:hover{background:#263aa3}
+.card{background:#0f173d;border-radius:10px;padding:10px;margin-bottom:10px}
+.stat{display:flex;justify-content:space-between;font-size:14px}
+.planet,.news,.tech,.ship{border-bottom:1px solid #222;padding:4px 0;font-size:13px}
+.locked{opacity:0.5}
+footer{background:#0b1030;padding:6px;text-align:center;font-size:12px}
+</style>
+</head>
+<body>
+<header>🌌 SpaceAlpha — Full GitHub Edition</header>
+<div id="layout">
+<div id="sidebar">
+<h2>Empire</h2>
+<div class="card">
+<div class="stat"><span>Energy</span><span id="energy"></span></div>
+<div class="stat"><span>Science</span><span id="science"></span></div>
+<div class="stat"><span>Money</span><span id="money"></span></div>
+<div class="stat"><span>Happiness</span><span id="happy"></span></div>
+</div>
+<div class="card">
+<h3>Market</h3>
+<button onclick="market.sell('energy',100)">Sell 100 Energy</button>
+<button onclick="market.buy('science',50)">Buy 50 Science</button>
+</div>
+<div class="card">
+<h3>Multiverse</h3>
+<button onclick="multiverse.prestige()">Prestige Reset</button>
+<div>Cycles: <span id="cycles"></span></div>
+</div>
+</div>
+<div id="main">
+<h2>Galaxy Map</h2>
+<div id="planets"></div>
+<h2>Technology</h2>
+<div id="techs"></div>
+<h2>Fleet Designer</h2>
+<div id="ships"></div>
+<button onclick="buildShip()">Build Ship</button>
+</div>
+<div id="rightbar">
+<h2>News</h2>
+<div id="news"></div>
+<h2>AI Empires</h2>
+<div id="ais"></div>
+</div>
+</div>
+<footer>Open-source SpaceAlpha clone — works on GitHub Pages</footer>
+<script>
+// ================= STATE =================
+const state={energy:100,science:50,money:0,ships:[],planets:[],news:[],ai:[],population:null};
+
+// ================= POPULATION =================
+class Population{constructor(){this.total=100;this.scientists=25;this.happiness=100}
+tick(){state.science+=this.scientists*0.02;state.energy+=this.total*0.03}}
+state.population=new Population();
+
+// ================= PLANETS =================
+class Planet{constructor(id){this.id=id;this.population=50;this.health=100;this.colonized=true;this.system='System '+Math.floor(id/4)}
+tick(){if(this.colonized){state.energy+=this.population*0.02;state.science+=this.population*0.01}}}
+for(let i=0;i<12;i++)state.planets.push(new Planet(i));
+
+// ================= TECHNOLOGY =================
+const TechTree={solar:{name:'Solar Arrays',cost:50,unlocked:false,effect:()=>state.energy+=100},fusion:{name:'Fusion Reactors',cost:150,unlocked:false,effect:()=>state.energy+=300},quantum:{name:'Quantum Engines',cost:400,unlocked:false,effect:()=>state.energy+=500},psionic:{name:'Psionic Research',cost:600,unlocked:false,effect:()=>state.population.happiness+=50}};
+function unlockTech(key){const t=TechTree[key];if(!t.unlocked&&state.science>=t.cost){state.science-=t.cost;t.unlocked=true;t.effect();pushNews(`Tech unlocked: ${t.name}`)}}
+
+// ================= MARKET =================
+const market={sell(res,amt){if(state[res]>=amt){state[res]-=amt;state.money+=amt}},buy(res,amt){if(state.money>=amt){state.money-=amt;state[res]+=amt}}};
+
+// ================= AI EMPIRES =================
+class AIEmpire{constructor(name){this.name=name;this.power=50+Math.random()*100;this.fleet=[];this.alliance=null}
+tick(){if(Math.random()<0.002)pushNews(`${this.name} expands its influence`);}}
+state.ai=[new AIEmpire('Orion Union'),new AIEmpire('Nova Pact')];
+
+// ================= MULTIVERSE =================
+class Multiverse{constructor(){this.cycles=0}prestige(){this.cycles++;state.energy=100;state.science=50;state.money=0;state.population=new Population();state.ships=[];state.planets.forEach(p=>{p.population=50;p.health=100});pushNews(`Multiverse reset #${this.cycles}`)}}
+const multiverse=new Multiverse();
+
+// ================= NEWS =================
+function pushNews(msg){state.news.unshift(msg);if(state.news.length>20)state.news.pop()}
+
+// ================= SHIPS =================
+class Ship{constructor(){this.modules=[];this.hp=100;this.attack=10;this.speed=1}addModule(type){this.modules.push(type);this.hp+=type==='shield'?20:0;this.attack+=type==='weapon'?5:0;this.speed+=type==='engine'?0.5:0}};
+function buildShip(){const s=new Ship();s.addModule('weapon');s.addModule('shield');state.ships.push(s);pushNews(`Built new ship with ${s.modules.join(', ')}`);renderShips()}
+function renderShips(){ships.innerHTML=state.ships.map((s,i)=>`<div class='ship'>Ship ${i+1} | HP: ${s.hp} | Attack: ${s.attack} | Speed: ${s.speed} | Modules: ${s.modules.join(', ')}</div>`).join('')}
+
+// ================= RENDER =================
+function render(){
+energy.textContent=Math.floor(state.energy);
+science.textContent=Math.floor(state.science);
+money.textContent=Math.floor(state.money);
+happy.textContent=Math.floor(state.population.happiness);
+cycles.textContent=multiverse.cycles;
+planets.innerHTML=state.planets.map(p=>`<div class='planet'>${p.system} - Planet ${p.id} | Pop ${Math.floor(p.population)} | Health ${p.health}</div>`).join('');
+techs.innerHTML=Object.keys(TechTree).map(k=>{const t=TechTree[k];return`<div class='tech ${t.unlocked?'':'locked'}'>${t.name} (${t.cost}) <button onclick="unlockTech('${k}')">Research</button></div>`}).join('');
+news.innerHTML=state.news.map(n=>`<div class='news'>${n}</div>`).join('');
+ais.innerHTML=state.ai.map(a=>`<div>${a.name} | Power ${Math.floor(a.power)}</div>`).join('');
+renderShips();
+}
+
+// ================= GAME LOOP =================
+function tick(){
+state.population.tick();
+state.planets.forEach(p=>p.tick());
+state.ai.forEach(a=>a.tick());
+if(Math.random()<0.002)pushNews('Cosmic anomaly detected');
+render();
+localStorage.setItem('spacealpha_save',JSON.stringify(state));
+}
+setInterval(tick,1000);
+
+// ================= LOAD =================
+const saved=JSON.parse(localStorage.getItem('spacealpha_save'));if(saved){Object.assign(state,saved);pushNews('Loaded previous session')}
+render();
+</script>
+</body>
+</html>
