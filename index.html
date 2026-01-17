@@ -1,31 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>SpaceAlpha – Complete Clone</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<title>SpaceAlpha Clone – Revamped UI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#05070d;color:#e6ebff}
-header{background:#0b1030;padding:12px 20px;font-size:20px;font-weight:bold}
-#layout{display:grid;grid-template-columns:260px 1fr 320px;height:calc(100vh - 48px)}
-#sidebar,#rightbar{background:#0a0f26;padding:12px;overflow:auto}
-#main{padding:12px;overflow:auto}
-button{background:#1b2a6b;color:#fff;border:none;border-radius:6px;padding:6px 10px;margin:4px 0;cursor:pointer}
-button:hover{background:#263aa3}
-.card{background:#0f173d;border-radius:10px;padding:10px;margin-bottom:10px}
-.stat{display:flex;justify-content:space-between;font-size:14px}
-.planet,.news,.tech,.ship,.unit{border-bottom:1px solid #222;padding:4px 0;font-size:13px}
-.locked{opacity:0.5}
-footer{background:#0b1030;padding:6px;text-align:center;font-size:12px}
+body {margin:0;font-family:Arial,Helvetica,sans-serif;background:#05070d;color:#e6ebff;}
+header {background:#0b1030;padding:12px 20px;font-size:22px;font-weight:bold;text-align:center;}
+#layout {display:grid;grid-template-columns:260px 1fr 320px;height:calc(100vh - 48px);}
+#sidebar,#rightbar {background:#0a0f26;padding:12px;overflow:auto;}
+#main {padding:12px;overflow:auto;}
+.card {background:#0f173d;border-radius:10px;padding:10px;margin-bottom:10px;box-shadow:0 0 10px #000;}
+.stat {display:flex;justify-content:space-between;font-size:14px;margin:2px 0;}
+button {background:#1b2a6b;color:#fff;border:none;border-radius:6px;padding:6px 10px;margin:2px 0;cursor:pointer;}
+button:hover {background:#263aa3;}
+.planet, .fleet, .tech, .unit, .ai, .news {border-bottom:1px solid #222;padding:4px 0;font-size:13px;}
+.locked {opacity:0.5;}
+.system-card {background:#0c1235;padding:8px;margin:5px;border-radius:8px;cursor:pointer;}
+.system-card:hover {background:#1c2a6f;}
+.fleet-card, .tech-card {padding:6px;margin:4px 0;border-radius:6px;background:#141f49;}
+button-small {padding:2px 6px;font-size:12px;margin-left:4px;}
+footer {background:#0b1030;padding:6px;text-align:center;font-size:12px;}
 </style>
 </head>
 <body>
-<header>🌌 SpaceAlpha – Complete Clone</header>
+<header>🌌 SpaceAlpha – Revamped UI</header>
 <div id="layout">
 
+<!-- Sidebar -->
 <div id="sidebar">
-<h2>Empire</h2>
 <div class="card">
+<h3>Empire Stats</h3>
 <div class="stat"><span>Energy</span><span id="energy"></span></div>
 <div class="stat"><span>Science</span><span id="science"></span></div>
 <div class="stat"><span>Money</span><span id="money"></span></div>
@@ -35,13 +40,11 @@ footer{background:#0b1030;padding:6px;text-align:center;font-size:12px}
 
 <div class="card">
 <h3>Unit Training</h3>
-<div class="unit">
-Farmers: <button onclick="assignFarmers(5)">+5</button>
-Scientists: <button onclick="assignScientists(5)">+5</button>
-Engineers: <button onclick="assignEngineers(5)">+5</button>
-Doctors: <button onclick="assignDoctors(5)">+5</button>
-Soldiers: <button onclick="assignSoldiers(5)">+5</button>
-</div>
+<div class="unit">Farmers <button class="button-small" onclick="assignFarmers(5)">+5</button> <button class="button-small" onclick="assignFarmers(10)">+10</button></div>
+<div class="unit">Scientists <button class="button-small" onclick="assignScientists(5)">+5</button> <button class="button-small" onclick="assignScientists(10)">+10</button></div>
+<div class="unit">Engineers <button class="button-small" onclick="assignEngineers(5)">+5</button> <button class="button-small" onclick="assignEngineers(10)">+10</button></div>
+<div class="unit">Doctors <button class="button-small" onclick="assignDoctors(5)">+5</button> <button class="button-small" onclick="assignDoctors(10)">+10</button></div>
+<div class="unit">Soldiers <button class="button-small" onclick="assignSoldiers(5)">+5</button> <button class="button-small" onclick="assignSoldiers(10)">+10</button></div>
 <div>Unassigned: <span id="unassigned"></span></div>
 </div>
 
@@ -58,67 +61,58 @@ Soldiers: <button onclick="assignSoldiers(5)">+5</button>
 </div>
 </div>
 
+<!-- Main Panel -->
 <div id="main">
 <h2>Galaxy Map</h2>
-<div id="planets"></div>
-
-<h2>Technology</h2>
-<div id="techs"></div>
+<div id="galaxyMap"></div>
 
 <h2>Fleet Designer</h2>
-<div id="ships"></div>
+<div id="fleetDesigner"></div>
 <button onclick="buildShip()">Build Ship</button>
-<div>
-Move Fleet: 
-<select id="fleetSelect"></select>
-<select id="systemSelect">
-<option value="System 0">System 0</option>
-<option value="System 1">System 1</option>
-<option value="System 2">System 2</option>
-<option value="System 3">System 3</option>
-</select>
-<button onclick="moveSelectedFleet()">Move</button>
-</div>
+
+<h2>Technology</h2>
+<div id="techTree"></div>
 </div>
 
+<!-- Right Panel -->
 <div id="rightbar">
-<h2>News</h2>
-<div id="news"></div>
-
 <h2>AI Empires</h2>
 <div id="ais"></div>
+
+<h2>News Feed</h2>
+<div id="news"></div>
 </div>
 
 </div>
-<footer>Open-source SpaceAlpha clone — GitHub Pages</footer>
+<footer>SpaceAlpha Clone – Fully Interactive</footer>
 
 <script>
 // ================= CORE STATE =================
-const state={energy:100,science:50,money:0,ships:[],planets:[],news:[],ai:[],units:null,playerFleets:[],aiFleets:[]};
+const state = {energy:100,science:50,money:0,ships:[],planets:[],news:[],ai:[],units:null,playerFleets:[],aiFleets:[]};
 
 // ================= UNIT SPECIALIZATION =================
 class UnitPool {
-  constructor(total) {
-    this.total = total;
-    this.roles = {farmers:0,engineers:0,scientists:0,soldiers:0,doctors:0};
-    this.unassigned = total;
-    this.happiness = 100;
-    this.sickness = 0;
-  }
-  assign(role,n){
-    if(this.unassigned>=n&&this.roles.hasOwnProperty(role)){
-      this.roles[role]+=n;
-      this.unassigned-=n;
+    constructor(total){
+        this.total=total;
+        this.roles={farmers:0,engineers:0,scientists:0,soldiers:0,doctors:0};
+        this.unassigned=total;
+        this.happiness=100;
+        this.sickness=0;
     }
-  }
-  tick(dt){
-    state.energy+=this.roles.farmers*0.03*dt;
-    state.science+=this.roles.scientists*0.02*dt;
-    state.money+=this.roles.engineers*0.01*dt;
-    this.sickness+=Math.max(0,(this.total*0.001-this.roles.doctors*0.0005)*dt);
-    this.happiness=Math.max(0,100-this.sickness);
-    if(this.sickness>30){state.energy*=0.98;state.science*=0.98;}
-  }
+    assign(role,n){
+        if(this.unassigned>=n && this.roles.hasOwnProperty(role)){
+            this.roles[role]+=n;
+            this.unassigned-=n;
+        }
+    }
+    tick(dt){
+        state.energy+=this.roles.farmers*0.03*dt;
+        state.science+=this.roles.scientists*0.02*dt;
+        state.money+=this.roles.engineers*0.01*dt;
+        this.sickness+=Math.max(0,(this.total*0.001-this.roles.doctors*0.0005)*dt);
+        this.happiness=Math.max(0,100-this.sickness);
+        if(this.sickness>30){state.energy*=0.98;state.science*=0.98;}
+    }
 }
 state.units=new UnitPool(200);
 function assignFarmers(n){state.units.assign('farmers',n)}
@@ -128,174 +122,130 @@ function assignDoctors(n){state.units.assign('doctors',n)}
 function assignSoldiers(n){state.units.assign('soldiers',n)}
 
 // ================= PLANETS & SYSTEMS =================
-class Planet{
-  constructor(id){
-    this.id=id;
-    this.population=50;
-    this.health=100;
-    this.colonized=true;
-    this.system='System '+Math.floor(id/4);
-  }
-  tick(dt){if(this.colonized){state.energy+=this.population*0.02*dt;state.science+=this.population*0.01*dt}}
+class Planet {
+    constructor(id){
+        this.id=id;
+        this.population=50;
+        this.health=100;
+        this.colonized=true;
+        this.system='System '+Math.floor(id/4);
+    }
+    tick(dt){if(this.colonized){state.energy+=this.population*0.02*dt;state.science+=this.population*0.01*dt}}
 }
 for(let i=0;i<12;i++)state.planets.push(new Planet(i));
 
 // ================= TECHNOLOGY =================
-const TechTree={
-  solar:{name:'Solar Arrays',cost:50,unlocked:false,effect:()=>state.energy+=100},
-  fusion:{name:'Fusion Reactors',cost:150,unlocked:false,effect:()=>state.energy+=300},
-  quantum:{name:'Quantum Engines',cost:400,unlocked:false,effect:()=>state.energy+=500},
-  psionic:{name:'Psionic Research',cost:600,unlocked:false,effect:()=>state.units.happiness+=50}
+const TechTree = {
+    solar:{name:'Solar Arrays',cost:50,unlocked:false,effect:()=>state.energy+=100},
+    fusion:{name:'Fusion Reactors',cost:150,unlocked:false,effect:()=>state.energy+=300},
+    quantum:{name:'Quantum Engines',cost:400,unlocked:false,effect:()=>state.energy+=500},
+    psionic:{name:'Psionic Research',cost:600,unlocked:false,effect:()=>state.units.happiness+=50}
 };
-function unlockTech(key){const t=TechTree[key];if(!t.unlocked&&state.science>=t.cost){state.science-=t.cost;t.unlocked=true;t.effect();pushNews(`Tech unlocked: ${t.name}`)}}
+function unlockTech(key){
+    const t=TechTree[key];
+    if(!t.unlocked && state.science>=t.cost){state.science-=t.cost;t.unlocked=true;t.effect();pushNews(`Tech unlocked: ${t.name}`);}
+}
 
 // ================= MARKET =================
-const market={sell(res,amt){if(state[res]>=amt){state[res]-=amt;state.money+=amt}},buy(res,amt){if(state.money>=amt){state.money-=amt;state[res]+=amt}}}
+const market = {sell(res,amt){if(state[res]>=amt){state[res]-=amt;state.money+=amt}},buy(res,amt){if(state.money>=amt){state.money-=amt;state[res]+=amt}}}
 
-// ================= SHIPS & BLUEPRINTS =================
-class Ship{
-  constructor(type){
-    this.type=type;
-    this.modules=[];
-    this.hp=100;
-    this.attack=10;
-    this.speed=1;
-  }
-  addModule(mod){
-    this.modules.push(mod);
-    if(mod==='weapon')this.attack+=5;
-    if(mod==='shield')this.hp+=20;
-    if(mod==='engine')this.speed+=0.5;
-  }
-}
-function buildShip(){
-  const s=new Ship('Fighter');
-  s.addModule('weapon');
-  s.addModule('shield');
-  state.ships.push(s);
-  // Add to player fleet
-  if(state.playerFleets.length===0)state.playerFleets.push(new Fleet('player',[],state.planets[0].system));
-  state.playerFleets[0].ships.push(s);
-  pushNews(`Built ship (${s.type}) with modules: ${s.modules.join(', ')}`);
-  renderShips();
-}
-
-// ================= FLEET COMBAT =================
-class Fleet {
-  constructor(owner, ships=[], system=null){
-    this.owner = owner; // 'player' or AI name
-    this.ships = ships;
-    this.system = system;
-  }
-  totalAttack(){return this.ships.reduce((a,s)=>a+s.attack,0);}
-  totalHP(){return this.ships.reduce((a,s)=>a+s.hp,0);}
-  tick(dt){
-    if(this.ships.length===0)return;
-    // Combat with enemy fleets in same system
-    const enemies = (this.owner==='player'?state.aiFleets:state.playerFleets)
-      .filter(f=>f.system===this.system);
+// ================= SHIPS & FLEETS =================
+class Ship {constructor(type){this.type=type;this.modules=[];this.hp=100;this.attack=10;this.speed=1;}
+addModule(mod){this.modules.push(mod);if(mod==='weapon')this.attack+=5;if(mod==='shield')this.hp+=20;if(mod==='engine')this.speed+=0.5;}}
+class Fleet {constructor(owner,ships=[],system=null){this.owner=owner;this.ships=ships;this.system=system;}
+totalAttack(){return this.ships.reduce((a,s)=>a+s.attack,0);}
+totalHP(){return this.ships.reduce((a,s)=>a+s.hp,0);}
+tick(dt){
+    if(this.ships.length===0) return;
+    const enemies = (this.owner==='player'?state.aiFleets:state.playerFleets).filter(f=>f.system===this.system);
     enemies.forEach(enemy=>{
-      const myPower=this.totalAttack();
-      const enemyPower=enemy.totalAttack();
-      const myLoss=Math.ceil(enemyPower/50);
-      const enemyLoss=Math.ceil(myPower/50);
-      this.ships.splice(0,myLoss);
-      enemy.ships.splice(0,enemyLoss);
-      pushNews(`${this.owner} fleet fought ${enemy.owner} in ${this.system}: Lost ${myLoss}, Enemy lost ${enemyLoss}`);
+        const myPower=this.totalAttack(); const enemyPower=enemy.totalAttack();
+        const myLoss=Math.ceil(enemyPower/50); const enemyLoss=Math.ceil(myPower/50);
+        this.ships.splice(0,myLoss); enemy.ships.splice(0,enemyLoss);
+        pushNews(`${this.owner} fleet fought ${enemy.owner} in ${this.system}: Lost ${myLoss}, Enemy lost ${enemyLoss}`);
     });
-  }
-}
+}}
 
 // ================= AI EMPIRES =================
-class AIEmpire{
-  constructor(name){
-    this.name=name;
-    this.power=50+Math.random()*100;
-    this.fleet=[];
-    this.alliance=null; // ally/neutral/hostile
-  }
-  tick(dt){
-    if(Math.random()<0.001)pushNews(`${this.name} expands influence`);
-    if(Math.random()<0.0005)pushNews(`${this.name} changes diplomatic stance`);
-  }
-}
+class AIEmpire {constructor(name){this.name=name;this.power=50+Math.random()*100;this.alliance=null;}}
 state.ai=[new AIEmpire('Orion Union'),new AIEmpire('Nova Pact')];
 state.aiFleets=state.ai.map(a=>new Fleet(a.name,[],`System ${Math.floor(Math.random()*3)}`));
 
 // ================= MULTIVERSE =================
-class Multiverse{
-  constructor(){this.cycles=0}
-  prestige(){
-    this.cycles++;
-    state.energy=100;state.science=50;state.money=0;
-    state.units=new UnitPool(200);
-    state.planets.forEach(p=>{p.population=50;p.health=100});
-    state.ships=[];
-    state.playerFleets=[];
-    state.aiFleets=state.ai.map(a=>new Fleet(a.name,[],`System ${Math.floor(Math.random()*3)}`));
-    pushNews(`Multiverse reset #${this.cycles}`);
-  }
-}
+class Multiverse {constructor(){this.cycles=0;} prestige(){this.cycles++;state.energy=100;state.science=50;state.money=0;state.units=new UnitPool(200);state.planets.forEach(p=>{p.population=50;p.health=100});state.ships=[];state.playerFleets=[];state.aiFleets=state.ai.map(a=>new Fleet(a.name,[],`System ${Math.floor(Math.random()*3)}`));pushNews(`Multiverse reset #${this.cycles}`);}}
 const multiverse=new Multiverse();
 
 // ================= NEWS =================
-function pushNews(msg){state.news.unshift(msg);if(state.news.length>20)state.news.pop()}
+function pushNews(msg){state.news.unshift(msg);if(state.news.length>20)state.news.pop();}
 
-// ================= MOVE FLEET UI =================
-function moveSelectedFleet(){
-  const fleetIndex=document.getElementById('fleetSelect').value;
-  const targetSystem=document.getElementById('systemSelect').value;
-  if(state.playerFleets[fleetIndex]){
-    state.playerFleets[fleetIndex].system=targetSystem;
-    pushNews(`Player fleet moved to ${targetSystem}`);
-  }
+// ================= BUILD SHIP =================
+function buildShip(){
+    const s=new Ship('Fighter'); s.addModule('weapon'); s.addModule('shield'); state.ships.push(s);
+    if(state.playerFleets.length===0) state.playerFleets.push(new Fleet('player',[],state.planets[0].system));
+    state.playerFleets[0].ships.push(s); pushNews(`Built ship (${s.type}) with modules: ${s.modules.join(', ')}`);
 }
 
 // ================= RENDER =================
 function render(){
-  energy.textContent=Math.floor(state.energy);
-  science.textContent=Math.floor(state.science);
-  money.textContent=Math.floor(state.money);
-  happy.textContent=Math.floor(state.units.happiness);
-  sickness.textContent=Math.floor(state.units.sickness);
-  unassigned.textContent=state.units.unassigned;
-  cycles.textContent=multiverse.cycles;
+    energy.textContent=Math.floor(state.energy); science.textContent=Math.floor(state.science); money.textContent=Math.floor(state.money);
+    happy.textContent=Math.floor(state.units.happiness); sickness.textContent=Math.floor(state.units.sickness); unassigned.textContent=state.units.unassigned;
+    cycles.textContent=multiverse.cycles;
 
-  planets.innerHTML=state.planets.map(p=>`<div class='planet'>${p.system} - Planet ${p.id} | Pop ${Math.floor(p.population)} | Health ${p.health}</div>`).join('');
-  techs.innerHTML=Object.keys(TechTree).map(k=>{const t=TechTree[k];return`<div class='tech ${t.unlocked?'':'locked'}'>${t.name} (${t.cost}) <button onclick="unlockTech('${k}')">Research</button></div>`}).join('');
-  news.innerHTML=state.news.map(n=>`<div class='news'>${n}</div>`).join('');
-  ais.innerHTML=state.ai.map(a=>`<div>${a.name} | Power ${Math.floor(a.power)} | System: ${state.aiFleets.find(f=>f.owner===a.name).system}</div>`).join('');
-  
-  // Update fleet UI
-  fleetSelect.innerHTML=state.playerFleets.map((f,i)=>`<option value="${i}">Fleet ${i+1} | System: ${f.system} | Ships: ${f.ships.length}</option>`).join('');
-  renderShips();
-}
+    // Galaxy map
+    galaxyMap.innerHTML='';
+    const systems=[...new Set(state.planets.map(p=>p.system))];
+    systems.forEach(s=>{
+        const sysCard=document.createElement('div'); sysCard.className='system-card'; sysCard.textContent=s;
+        sysCard.onclick=()=>{state.playerFleets.forEach(f=>f.system=s); pushNews(`Player fleets moved to ${s}`); render();};
+        galaxyMap.appendChild(sysCard);
+        const planetsInSys=state.planets.filter(p=>p.system===s);
+        planetsInSys.forEach(p=>{
+            const pDiv=document.createElement('div'); pDiv.className='planet'; pDiv.textContent=`Planet ${p.id} | Pop ${Math.floor(p.population)} | Health ${p.health}`;
+            galaxyMap.appendChild(pDiv);
+        });
+    });
 
-function renderShips(){
-  ships.innerHTML=state.playerFleets.map((f,i)=>{
-    return `<div class='ship'>Fleet ${i+1} | System: ${f.system} | Ships: ${f.ships.length} | Attack: ${f.totalAttack()} | HP: ${f.totalHP()}</div>`;
-  }).join('');
+    // Tech Tree
+    techTree.innerHTML='';
+    Object.keys(TechTree).forEach(k=>{
+        const t=TechTree[k];
+        const tCard=document.createElement('div'); tCard.className=`tech-card ${t.unlocked?'':'locked'}`; tCard.textContent=`${t.name} (${t.cost})`;
+        if(!t.unlocked){const b=document.createElement('button'); b.textContent='Research'; b.onclick=()=>unlockTech(k); tCard.appendChild(b);}
+        techTree.appendChild(tCard);
+    });
+
+    // Fleets
+    fleetDesigner.innerHTML='';
+    state.playerFleets.forEach((f,i)=>{
+        const fCard=document.createElement('div'); fCard.className='fleet-card'; fCard.innerHTML=`Fleet ${i+1} | System: ${f.system} | Ships: ${f.ships.length} | Attack: ${f.totalAttack()} | HP: ${f.totalHP()}`;
+        fleetDesigner.appendChild(fCard);
+    });
+
+    // AI
+    ais.innerHTML='';
+    state.ai.forEach(a=>{
+        const aiF=state.aiFleets.find(f=>f.owner===a.name);
+        const aDiv=document.createElement('div'); aDiv.className='ai'; aDiv.textContent=`${a.name} | Power ${Math.floor(a.power)} | System: ${aiF.system}`;
+        ais.appendChild(aDiv);
+    });
+
+    // News
+    news.innerHTML=state.news.map(n=>`<div class='news'>${n}</div>`).join('');
 }
 
 // ================= GAME LOOP =================
 function tick(){
-  const dt=1;
-  state.units.tick(dt);
-  state.planets.forEach(p=>p.tick(dt));
-  state.ai.forEach(a=>a.tick(dt));
-  state.playerFleets.forEach(f=>f.tick(dt));
-  state.aiFleets.forEach(f=>f.tick(dt));
-  if(Math.random()<0.002)pushNews('Cosmic anomaly detected');
-  render();
-  localStorage.setItem('spacealpha_save',JSON.stringify(state));
+    const dt=1; state.units.tick(dt); state.planets.forEach(p=>p.tick(dt)); state.ai.forEach(a=>{}); state.playerFleets.forEach(f=>f.tick(dt)); state.aiFleets.forEach(f=>f.tick(dt));
+    if(Math.random()<0.002) pushNews('Cosmic anomaly detected');
+    render(); localStorage.setItem('spacealpha_save',JSON.stringify(state));
 }
 setInterval(tick,1000);
 
 // ================= LOAD =================
-const saved=JSON.parse(localStorage.getItem('spacealpha_save'));
-if(saved){Object.assign(state,saved);pushNews('Loaded previous session')}
+const saved=JSON.parse(localStorage.getItem('spacealpha_save')); if(saved){Object.assign(state,saved);pushNews('Loaded previous session');}
 render();
 </script>
 </body>
 </html>
+
 
