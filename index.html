@@ -19,7 +19,28 @@ button:hover {background:#263aa3;}
 .system-card {background:#0c1235;padding:8px;margin:5px;border-radius:8px;cursor:pointer;}
 .system-card:hover {background:#1c2a6f;}
 .fleet-card, .tech-card {padding:6px;margin:4px 0;border-radius:6px;background:#141f49;}
-button-small {padding:2px 6px;font-size:12px;margin-left:4px;}
+.button-small {padding:2px 6px;font-size:12px;margin-left:4px;}
+.omega-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;}
+.omega-card {background:#0f173d;border-radius:10px;padding:12px;box-shadow:0 0 10px #000;border:1px solid rgba(100,120,255,0.2);}
+.omega-card h4 {margin:0 0 6px 0;font-size:14px;}
+.omega-card ul {margin:0;padding-left:16px;font-size:12px;}
+.omega-summary {margin:0 0 10px 0;font-size:13px;color:#cbd6ff;}
+.omega-meta {display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
+.omega-pill {background:#1b2a6b;border-radius:999px;padding:2px 8px;font-size:11px;color:#e6ebff;}
+.omega-kicker {font-size:12px;text-transform:uppercase;letter-spacing:1px;color:#7f8bd6;margin-bottom:4px;}
+.omega-card p {margin:0 0 6px 0;font-size:12px;color:#d3dcff;}
+.omega-full {margin-top:16px;background:#0b1233;border-radius:12px;padding:16px;box-shadow:0 0 12px #000;border:1px solid rgba(100,120,255,0.2);}
+.omega-full h3 {margin:0 0 8px 0;}
+.omega-full h4 {margin:14px 0 6px 0;color:#dbe2ff;}
+.omega-full h5 {margin:10px 0 4px 0;color:#cbd6ff;}
+.omega-full p {margin:0 0 8px 0;font-size:13px;color:#d3dcff;}
+.omega-full ul {margin:0 0 8px 0;padding-left:18px;font-size:13px;}
+.omega-quote {margin:6px 0 12px 0;padding:8px 10px;border-left:3px solid #5b6bff;background:#0f183d;color:#e1e7ff;font-style:italic;}
+.omega-code {background:#070b1f;border-radius:8px;padding:10px;white-space:pre-wrap;font-size:12px;line-height:1.4;color:#dbe2ff;}
+.mini-panel {background:#101941;border-radius:8px;padding:8px;margin-bottom:10px;}
+.mini-panel h4 {margin:0 0 6px 0;font-size:13px;}
+.chat-line {font-size:12px;border-bottom:1px solid #24306f;padding:3px 0;}
+#galaxy3d {width:100%;height:180px;background:#040714;border-radius:8px;border:1px solid #26357a;display:block;}
 footer {background:#0b1030;padding:6px;text-align:center;font-size:12px;}
 </style>
 </head>
@@ -34,8 +55,13 @@ footer {background:#0b1030;padding:6px;text-align:center;font-size:12px;}
 <div class="stat"><span>Energy</span><span id="energy"></span></div>
 <div class="stat"><span>Science</span><span id="science"></span></div>
 <div class="stat"><span>Money</span><span id="money"></span></div>
+<div class="stat"><span>Brains</span><span id="brains"></span></div>
+<div class="stat"><span>Diamonds</span><span id="diamonds"></span></div>
 <div class="stat"><span>Happiness</span><span id="happy"></span></div>
 <div class="stat"><span>Sickness</span><span id="sickness"></span></div>
+<div class="stat"><span>Momentum</span><span id="momentum"></span></div>
+<div class="stat"><span>Entropy</span><span id="entropy"></span></div>
+<div class="stat"><span>Lag</span><span id="lag"></span></div>
 </div>
 
 <div class="card">
@@ -52,6 +78,9 @@ footer {background:#0b1030;padding:6px;text-align:center;font-size:12px;}
 <h3>Market</h3>
 <button onclick="market.sell('energy',100)">Sell 100 Energy</button>
 <button onclick="market.buy('science',50)">Buy 50 Science</button>
+<div class="stat"><span>Energy Price</span><span id="priceEnergy"></span></div>
+<div class="stat"><span>Science Price</span><span id="priceScience"></span></div>
+<div class="stat"><span>Food Price</span><span id="priceFood"></span></div>
 </div>
 
 <div class="card">
@@ -64,6 +93,7 @@ footer {background:#0b1030;padding:6px;text-align:center;font-size:12px;}
 <!-- Main Panel -->
 <div id="main">
 <h2>Galaxy Map</h2>
+<canvas id="galaxy3d" width="900" height="180"></canvas>
 <div id="galaxyMap"></div>
 
 <h2>Fleet Designer</h2>
@@ -72,12 +102,484 @@ footer {background:#0b1030;padding:6px;text-align:center;font-size:12px;}
 
 <h2>Technology</h2>
 <div id="techTree"></div>
+
+<h2>Omega Bible Highlights</h2>
+<p class="omega-summary">A living design atlas for the galaxy: systems, pressures, and long-term strategy hooks.</p>
+<div id="omegaBible" class="omega-grid"></div>
+
+<div class="omega-full">
+<h3>🌌 SpaceAlpha Omega Bible</h3>
+<p><strong>“A Living Galactic Civilization Simulator”</strong></p>
+
+<h4>0) Core Identity</h4>
+<h5>Genre</h5>
+<p>Galactic MMO Strategy + Simulation + Economy + Politics + AI</p>
+<h5>Fantasy</h5>
+<ul>
+  <li>You are not just a commander.</li>
+  <li>You are a <strong>civilization architect, economic manipulator, and galactic power broker</strong>.</li>
+</ul>
+<h5>Design Pillars</h5>
+<ul>
+  <li><strong>Depth without boredom</strong></li>
+  <li><strong>Emergent gameplay (players + AI create history)</strong></li>
+  <li><strong>Time-based progression</strong></li>
+  <li><strong>Multiple paths to power</strong></li>
+  <li><strong>Infinite scalability</strong></li>
+</ul>
+
+<h4>1) Time & Tick Engine ⏳</h4>
+<h5>Tick Types</h5>
+<ul>
+  <li>Micro Tick (1 min): production, fleets, markets, AI decisions</li>
+  <li>Macro Tick (10 min): politics, events, migrations</li>
+  <li>Epoch Tick (24h): galaxy shifts, rankings, major AI actions</li>
+</ul>
+<h5>Time Mechanics</h5>
+<ul>
+  <li>Momentum: growth acceleration</li>
+  <li>Entropy: decay and collapse</li>
+  <li>Lag: inefficiency from overexpansion</li>
+  <li>Forecasting: predict future states</li>
+</ul>
+<div class="omega-quote">Time is a resource, weapon, and strategy.</div>
+
+<h4>2) Galaxy Architecture 🌠</h4>
+<h5>Galaxy Layers</h5>
+<ol>
+  <li>Physical Layer → planets, fleets, stars</li>
+  <li>Economic Layer → markets, banks, corporations</li>
+  <li>Political Layer → nations, alliances, laws</li>
+  <li>Information Layer → data, rumors, espionage</li>
+  <li>Hidden Layer → relics, ancient AI, secret factions</li>
+</ol>
+<h5>Galaxy Types</h5>
+<ul>
+  <li>Core Galaxy (balanced)</li>
+  <li>Wild Galaxy (chaotic, rare resources)</li>
+  <li>AI-Dominated Galaxy</li>
+  <li>Hardcore Galaxy (no resets)</li>
+  <li>Experimental Galaxy (new mechanics)</li>
+</ul>
+
+<h4>3) Planet System 🌍</h4>
+<h5>Planet Stats</h5>
+<ul>
+  <li>Habitability</li>
+  <li>Stability</li>
+  <li>Resource richness</li>
+  <li>Population capacity</li>
+  <li>Energy potential</li>
+  <li>Corruption level</li>
+  <li>AI integration %</li>
+</ul>
+<h5>Planet Roles</h5>
+<ul>
+  <li>Industrial World</li>
+  <li>Research World</li>
+  <li>Military World</li>
+  <li>Trade Hub</li>
+  <li>Brain World 🧠</li>
+  <li>Shadow World 🕵️</li>
+  <li>Relic World 🗿</li>
+  <li>AI Core World 🤖</li>
+</ul>
+<h5>Planet Dynamics</h5>
+<ul>
+  <li>Pollution vs forests</li>
+  <li>Urbanization vs nature</li>
+  <li>Automation vs employment</li>
+  <li>AI control vs human control</li>
+</ul>
+
+<h4>4) Population & Society 👥</h4>
+<h5>Population Types</h5>
+<ul>
+  <li>Workers</li>
+  <li>Farmers</li>
+  <li>Engineers</li>
+  <li>Scientists</li>
+  <li>Nerds 🤓</li>
+  <li>Soldiers</li>
+  <li>Hackers</li>
+  <li>Politicians</li>
+  <li>AI Units</li>
+  <li>Rebels</li>
+  <li>Elites</li>
+</ul>
+<h5>Social Stats</h5>
+<ul>
+  <li>Happiness</li>
+  <li>Loyalty</li>
+  <li>Fear</li>
+  <li>Ideology</li>
+  <li>Corruption</li>
+  <li>Education</li>
+</ul>
+<h5>Emergent Events</h5>
+<ul>
+  <li>Strikes</li>
+  <li>Revolutions</li>
+  <li>AI rebellions</li>
+  <li>Cults</li>
+  <li>Technocratic coups</li>
+  <li>Mass migrations</li>
+</ul>
+
+<h4>5) Resource Mega System 💎</h4>
+<h5>Material</h5>
+<p>Iron, Coal, Copper, Silicon, Gold, Uranium, Water, Food</p>
+<h5>Industrial</h5>
+<p>Steel, Fuel, Circuits, Alloys, Nanomaterials</p>
+<h5>Exotic</h5>
+<p>Tritium, Antimatter, Dark Matter, Quantum Crystals</p>
+<h5>Cognitive</h5>
+<p>Brains 🧠, Data, Nerds 🤓, Algorithms</p>
+<h5>Political</h5>
+<p>Influence, Votes, Legitimacy, Propaganda</p>
+<h5>Temporal</h5>
+<p>Time Credits, Momentum, Entropy</p>
+<h5>Premium / Rare</h5>
+<p>Diamonds 💎, Relics, Cosmic Shards, Space Credits</p>
+<p>Each resource has production, consumption, scarcity, strategic value, and political impact.</p>
+
+<h4>6) Facility Omega Tree 🏭</h4>
+<h5>Economy</h5>
+<ul>
+  <li>Mine → Mega Mine → Quantum Mine</li>
+  <li>Factory → AI Factory → Autonomous Industry</li>
+  <li>Bank → Interstellar Bank → Quantum Bank</li>
+  <li>Money Printer 💸 (inflation risk)</li>
+  <li>Stock Exchange 📈</li>
+</ul>
+<h5>Science</h5>
+<ul>
+  <li>Lab → Brain Lab → AI Core</li>
+  <li>Observatory → Cosmic Scanner</li>
+  <li>Time Lab ⏳</li>
+  <li>Reality Simulator</li>
+</ul>
+<h5>Military</h5>
+<ul>
+  <li>Barracks → Cyborg Forge</li>
+  <li>Shipyard → Titan Forge</li>
+  <li>Orbital Defense Grid</li>
+  <li>Planetary Shield</li>
+</ul>
+<h5>Shadow</h5>
+<ul>
+  <li>Spy HQ</li>
+  <li>Nerd Trap 🤓</li>
+  <li>Assassin Guild</li>
+  <li>Black Market</li>
+  <li>Propaganda Tower</li>
+</ul>
+<h5>Meta Facilities</h5>
+<ul>
+  <li>Galactic Media Network</li>
+  <li>Mind Factory</li>
+  <li>Chaos Reactor</li>
+  <li>Civilization Engine</li>
+</ul>
+<p>Each facility has Level, Efficiency %, Automation %, Corruption %, Power usage, and Sabotage risk.</p>
+
+<h4>7) Energy & Power ⚡</h4>
+<h5>Power Sources</h5>
+<ul>
+  <li>Solar</li>
+  <li>Fusion</li>
+  <li>Antimatter</li>
+  <li>Stellar</li>
+  <li>Dark Energy</li>
+</ul>
+<h5>Mechanics</h5>
+<ul>
+  <li>Power shortages cause chaos</li>
+  <li>Overload causes disasters</li>
+  <li>Energy = limit of empire growth</li>
+</ul>
+
+<h4>8) Ships & Fleets 🚀</h4>
+<h5>Ship Classes</h5>
+<p><strong>Basic:</strong> Scout, Miner, Cargo, Fighter, Bomber</p>
+<p><strong>Advanced:</strong> Destroyer, Cruiser, Carrier, Colony Ship</p>
+<p><strong>Elite:</strong> Battleship, Dreadnought, Titan</p>
+<p><strong>Special:</strong> Spy Ship, Assassin Ship, Trade Armada, AI Swarm, Relic Ship</p>
+<p>Each ship has HP, Attack, Defense, Speed, Fuel, Stealth, Cargo, AI level, Morale.</p>
+<h5>Fleet Mechanics</h5>
+<ul>
+  <li>Logistics</li>
+  <li>Supply chains</li>
+  <li>Doctrines (swarm, stealth, siege)</li>
+  <li>Fleet fatigue</li>
+  <li>AI autonomy</li>
+  <li>Abort mission, reroute, emergency retreat</li>
+</ul>
+
+<h4>9) Combat System ⚔️</h4>
+<h5>Combat Factors</h5>
+<ul>
+  <li>Tech gap</li>
+  <li>Morale</li>
+  <li>Distance</li>
+  <li>Detection</li>
+  <li>Formation</li>
+  <li>Commander skill</li>
+  <li>Terrain (planet type)</li>
+</ul>
+<h5>War Types</h5>
+<ul>
+  <li>Fleet War</li>
+  <li>Planetary Invasion</li>
+  <li>Economic War</li>
+  <li>Information War</li>
+  <li>Proxy War</li>
+  <li>AI War</li>
+  <li>Civil War</li>
+</ul>
+<h5>Victory Conditions</h5>
+<ul>
+  <li>Military domination</li>
+  <li>Economic control</li>
+  <li>Ideological dominance</li>
+  <li>Narrative control (public opinion)</li>
+</ul>
+
+<h4>10) Tech Tree 🧬</h4>
+<h5>Branches</h5>
+<ul>
+  <li>Economy</li>
+  <li>Military</li>
+  <li>AI</li>
+  <li>Biology</li>
+  <li>Politics</li>
+  <li>Space</li>
+  <li>Time</li>
+ </ul>
+<h5>Features</h5>
+<ul>
+  <li>Hidden techs</li>
+  <li>Forbidden tech</li>
+  <li>Tech theft</li>
+  <li>Tech races</li>
+  <li>Obsolescence</li>
+</ul>
+
+<h4>11) AI Empires 🤖</h4>
+<h5>AI Personalities</h5>
+<ul>
+  <li>Conqueror</li>
+  <li>Economist</li>
+  <li>Diplomat</li>
+  <li>Fanatic</li>
+  <li>Hive Mind</li>
+  <li>Corporate AI</li>
+  <li>Rogue AI</li>
+ </ul>
+<h5>AI Capabilities</h5>
+<ul>
+  <li>Manipulate players</li>
+  <li>Fake weakness</li>
+  <li>Create proxy wars</li>
+  <li>Crash markets</li>
+  <li>Form secret alliances</li>
+  <li>Predict player behavior</li>
+ </ul>
+<div class="omega-quote">AI is not NPC. It is a rival civilization.</div>
+
+<h4>12) Politics & Nations 🏛️</h4>
+<h5>Nation Systems</h5>
+<ul>
+  <li>Ideology (technocracy, militarism, capitalism, AI rule, chaos)</li>
+  <li>Laws</li>
+  <li>Taxes</li>
+  <li>Rights</li>
+  <li>Propaganda</li>
+ </ul>
+<h5>Alliances</h5>
+<ul>
+  <li>Shared tech</li>
+  <li>Shared fleets</li>
+  <li>Internal politics</li>
+  <li>Betrayals</li>
+  <li>Civil wars inside alliances</li>
+ </ul>
+<h5>Ranks</h5>
+<ul>
+  <li>Strongest Army</li>
+  <li>Richest Empire</li>
+  <li>Smartest Scientist</li>
+  <li>Most Influential Nation</li>
+  <li>Most Dangerous Spy Master</li>
+ </ul>
+
+<h4>13) Economy & Market 📊</h4>
+<h5>Features</h5>
+<ul>
+  <li>Player-driven market</li>
+  <li>AI traders</li>
+  <li>Black market</li>
+  <li>Investments</li>
+  <li>Corporations</li>
+  <li>Currency wars</li>
+  <li>Monopolies</li>
+  <li>Economic sabotage</li>
+ </ul>
+<h5>Logs</h5>
+<ul>
+  <li>Trade logs</li>
+  <li>Price history</li>
+  <li>Insider data</li>
+  <li>Forecast graphs</li>
+ </ul>
+
+<h4>14) Information Warfare 🧠</h4>
+<h5>Players can</h5>
+<ul>
+  <li>Spread propaganda</li>
+  <li>Leak fake news</li>
+  <li>Manipulate rankings</li>
+  <li>Rewrite narratives</li>
+  <li>Create myths</li>
+  <li>Destroy reputations</li>
+ </ul>
+<p>Information becomes a weapon.</p>
+
+<h4>15) Heroes & Cards 🎴</h4>
+<h5>Heroes</h5>
+<ul>
+  <li>Commanders</li>
+  <li>Scientists</li>
+  <li>Politicians</li>
+  <li>AI Entities</li>
+  <li>Mythic figures</li>
+ </ul>
+<h5>Hero mechanics</h5>
+<ul>
+  <li>Loyalty</li>
+  <li>Ideology</li>
+  <li>Betrayal</li>
+  <li>Evolution into legends</li>
+ </ul>
+<h5>Cards</h5>
+<ul>
+  <li>Passive buffs</li>
+  <li>Active abilities</li>
+  <li>Synergies</li>
+  <li>Rare relic cards</li>
+ </ul>
+
+<h4>16) Missions & Events 🎁</h4>
+<h5>Types</h5>
+<ul>
+  <li>Daily missions</li>
+  <li>Secret missions</li>
+  <li>Alliance missions</li>
+  <li>Galaxy-wide events</li>
+  <li>AI story arcs</li>
+  <li>Player-generated events</li>
+ </ul>
+
+<h4>17) Chaos Engine 🌪️</h4>
+<p>A system that constantly generates:</p>
+<ul>
+  <li>Unexpected crises</li>
+  <li>AI rebellions</li>
+  <li>Resource collapses</li>
+  <li>Cosmic mysteries</li>
+  <li>Legendary wars</li>
+ </ul>
+<p>Example: Too many money printers → galaxy hyperinflation event 💸</p>
+
+<h4>18) Long-Term Sustainability ♾️</h4>
+<h5>Anti-Boring Systems</h5>
+<ul>
+  <li>No hard caps</li>
+  <li>Multiple meta strategies</li>
+  <li>Hidden mechanics</li>
+  <li>Rare discoveries</li>
+  <li>Player-driven history</li>
+ </ul>
+<h5>Legacy System</h5>
+<ul>
+  <li>Players become ancient civilizations</li>
+  <li>Relics remain</li>
+  <li>History affects next galaxy</li>
+ </ul>
+
+<h4>19) UI / UX Design 🎛️</h4>
+<h5>Core UI</h5>
+<ul>
+  <li>Galaxy command dashboard</li>
+  <li>Planet micro-control panel</li>
+  <li>Economic analytics</li>
+  <li>AI assistant</li>
+  <li>War replay system</li>
+  <li>Time-lapse galaxy history</li>
+ </ul>
+<div class="omega-quote">“You feel like a galactic strategist, not a clicker game player.”</div>
+
+<h4>🧠 SpaceAlpha Omega Master Prompt (Final Form)</h4>
+<p>Copy this exactly:</p>
+<pre class="omega-code">Design a persistent browser-based galactic MMO with a living, multi-layer galaxy simulation. 
+Include tick-based time, real-time updates, multiplayer players, and adaptive AI civilizations.
+
+Implement interconnected systems for:
+- Planets with population, morale, pollution, energy, specialization, and AI control.
+- Complex resources (material, industrial, exotic, cognitive, political, temporal, premium).
+- Facilities with efficiency, automation, corruption, power usage, and sabotage risk.
+- Deep tech trees with hidden, forbidden, and evolving technologies.
+- Fleet warfare with logistics, fuel, doctrines, morale, commanders, and AI autonomy.
+- Economic systems with markets, banks, corporations, investments, monopolies, and crashes.
+- Politics with nations, ideologies, laws, alliances, voting, influence, and ranks.
+- Espionage, assassinations, propaganda, misinformation, and cyber warfare.
+- Heroes, cards, relics, missions, gifts, and emergent galactic lore.
+- Chaos engine generating unpredictable galaxy events and player-driven history.
+- Smart AI empires that adapt, manipulate, ally, betray, and wage wars.
+- Macro galaxy view and micro planet management with dashboards, analytics, logs, and chat.
+
+Ensure the game is strategically deep, balanced, anti-pay-to-win, infinitely scalable, and sustainable long-term with legacy systems across galaxies.</pre>
+
+<h4>😈 If you want… I can go EVEN CRAZIER</h4>
+<ul>
+  <li>⚔️ 300+ ships with stats</li>
+  <li>🏭 200+ facilities with formulas</li>
+  <li>💎 full resource balance tables</li>
+  <li>🤖 AI logic pseudocode (real algorithms)</li>
+  <li>🗺️ procedural galaxy generator rules</li>
+  <li>📊 exact MMO balance math</li>
+  <li>🧬 insane secret mechanics like “time wars” and “AI gods”</li>
+ </ul>
+<p>If you say: <strong>“MAKE THE OMEGA MEGA BIBLE LEVEL 2”</strong> I’ll build something so detailed it looks like a real AAA studio internal document. 🚀</p>
+</div>
 </div>
 
 <!-- Right Panel -->
 <div id="rightbar">
 <h2>AI Empires</h2>
 <div id="ais"></div>
+
+<div class="mini-panel">
+<h4>Galaxy Status</h4>
+<div class="stat"><span>Online Players</span><span id="onlinePlayers"></span></div>
+<div class="stat"><span>Nation Influence</span><span id="nationInfluence"></span></div>
+<div class="stat"><span>Voting Power</span><span id="votingPower"></span></div>
+<div class="stat"><span>Rank Points</span><span id="rankPoints"></span></div>
+<button onclick="sendMiningFleet()">Send Mining Fleet</button>
+<button onclick="transferResources()">Transfer 100 Steel</button>
+<button onclick="deploySoldiers()">Deploy 10 Soldiers</button>
+</div>
+
+<div class="mini-panel">
+<h4>Missions & Gifts</h4>
+<div id="missions"></div>
+<button onclick="claimGift()">Claim Daily Gift</button>
+</div>
+
+<div class="mini-panel">
+<h4>Alliance Chat</h4>
+<div id="chat"></div>
+</div>
 
 <h2>News Feed</h2>
 <div id="news"></div>
@@ -88,7 +590,73 @@ footer {background:#0b1030;padding:6px;text-align:center;font-size:12px;}
 
 <script>
 // ================= CORE STATE =================
-const state = {energy:100,science:50,money:0,ships:[],planets:[],news:[],ai:[],units:null,playerFleets:[],aiFleets:[]};
+const state = {
+    energy:100,
+    science:50,
+    money:0,
+    food:80,
+    iron:120,
+    coal:120,
+    steel:60,
+    gold:15,
+    tritium:8,
+    diamonds:2,
+    brains:10,
+    votingPower:12,
+    rankPoints:0,
+    premiumCredits:5,
+    momentum:5,
+    entropy:0,
+    lag:0,
+    ships:[],
+    planets:[],
+    news:[],
+    ai:[],
+    units:null,
+    playerFleets:[],
+    aiFleets:[],
+    nation:{name:'Helios Directorate',influence:25,laws:1},
+    onlinePlayers:34,
+    chatLog:[],
+    missions:[
+        {name:'Stabilize Planetary Health',progress:0,target:100,reward:'300 money + 1 diamond'},
+        {name:'Forge Steel for Fleet',progress:0,target:80,reward:'2 ship blueprints'},
+        {name:'Expand Voting Bloc',progress:0,target:50,reward:'20 voting power'}
+    ],
+    giftsClaimed:0
+};
+const marketPrices = {energy:1.0,science:1.5,food:0.8,steel:2.4,tritium:4.8,diamonds:18};
+const shipBlueprints = {frigate:0,destroyer:0,carrier:0,miner:1};
+
+const ui = {
+    energy: document.getElementById('energy'),
+    science: document.getElementById('science'),
+    money: document.getElementById('money'),
+    brains: document.getElementById('brains'),
+    diamonds: document.getElementById('diamonds'),
+    happy: document.getElementById('happy'),
+    sickness: document.getElementById('sickness'),
+    unassigned: document.getElementById('unassigned'),
+    cycles: document.getElementById('cycles'),
+    momentum: document.getElementById('momentum'),
+    entropy: document.getElementById('entropy'),
+    lag: document.getElementById('lag'),
+    priceEnergy: document.getElementById('priceEnergy'),
+    priceScience: document.getElementById('priceScience'),
+    priceFood: document.getElementById('priceFood'),
+    onlinePlayers: document.getElementById('onlinePlayers'),
+    nationInfluence: document.getElementById('nationInfluence'),
+    votingPower: document.getElementById('votingPower'),
+    rankPoints: document.getElementById('rankPoints'),
+    galaxyMap: document.getElementById('galaxyMap'),
+    techTree: document.getElementById('techTree'),
+    omegaBible: document.getElementById('omegaBible'),
+    fleetDesigner: document.getElementById('fleetDesigner'),
+    ais: document.getElementById('ais'),
+    missions: document.getElementById('missions'),
+    chat: document.getElementById('chat'),
+    news: document.getElementById('news')
+};
 
 // ================= UNIT SPECIALIZATION =================
 class UnitPool {
@@ -106,9 +674,14 @@ class UnitPool {
         }
     }
     tick(dt){
-        state.energy+=this.roles.farmers*0.03*dt;
-        state.science+=this.roles.scientists*0.02*dt;
-        state.money+=this.roles.engineers*0.01*dt;
+        const efficiency = Math.max(0.6,1 - state.lag * 0.01);
+        state.energy+=this.roles.farmers*0.03*dt*efficiency;
+        state.science+=this.roles.scientists*0.02*dt*efficiency;
+        state.money+=this.roles.engineers*0.01*dt*efficiency;
+        state.food+=this.roles.farmers*0.02*dt*efficiency;
+        state.brains+=this.roles.scientists*0.005*dt;
+        state.votingPower+=this.roles.soldiers*0.002*dt;
+        state.food=Math.max(0,state.food-this.total*0.004*dt);
         this.sickness+=Math.max(0,(this.total*0.001-this.roles.doctors*0.0005)*dt);
         this.happiness=Math.max(0,100-this.sickness);
         if(this.sickness>30){state.energy*=0.98;state.science*=0.98;}
@@ -129,8 +702,24 @@ class Planet {
         this.health=100;
         this.colonized=true;
         this.system='System '+Math.floor(id/4);
+        this.pollution=5+Math.random()*10;
+        this.automation=10+Math.random()*20;
     }
-    tick(dt){if(this.colonized){state.energy+=this.population*0.02*dt;state.science+=this.population*0.01*dt}}
+    tick(dt){
+        if(!this.colonized) return;
+        const planetEfficiency = Math.max(0.7,1 - (this.pollution/200));
+        state.energy+=this.population*0.02*dt*planetEfficiency;
+        state.science+=this.population*0.01*dt*planetEfficiency;
+        state.food+=this.population*0.008*dt*planetEfficiency;
+        state.iron+=0.6*dt*planetEfficiency;
+        state.coal+=0.5*dt*planetEfficiency;
+        const steelMade=Math.min(state.iron*0.02,state.coal*0.02);
+        state.iron-=steelMade;
+        state.coal-=steelMade;
+        state.steel+=steelMade;
+        this.pollution+=0.01*dt*(this.automation/50);
+        this.health=Math.max(50,100 - this.pollution*0.5);
+    }
 }
 for(let i=0;i<12;i++)state.planets.push(new Planet(i));
 
@@ -141,13 +730,117 @@ const TechTree = {
     quantum:{name:'Quantum Engines',cost:400,unlocked:false,effect:()=>state.energy+=500},
     psionic:{name:'Psionic Research',cost:600,unlocked:false,effect:()=>state.units.happiness+=50}
 };
+const omegaBibleSections = [
+    {
+        title:'Time & Ticks',
+        kicker:'Temporal Engine',
+        summary:'Time is a strategic resource with momentum, entropy, and lag.',
+        items:['Micro (1m) production & AI','Macro (10m) politics & events','Epoch (24h) galaxy shifts'],
+        tags:['Momentum','Entropy','Forecasting']
+    },
+    {
+        title:'Galaxy Layers',
+        kicker:'Multi-Layer Space',
+        summary:'Physical, economic, political, informational, and hidden strata.',
+        items:['Physical, Economic, Political','Information & Hidden layers','Core, Wild, AI, Hardcore variants'],
+        tags:['Exploration','Secrecy','Relics']
+    },
+    {
+        title:'Planet Systems',
+        kicker:'World Identity',
+        summary:'Planets specialize with competing pressures and AI control.',
+        items:['Habitability, stability, corruption','Role specializations','Automation vs employment'],
+        tags:['Colonies','Roles','Balance']
+    },
+    {
+        title:'Population & Society',
+        kicker:'Civic Simulation',
+        summary:'Citizens have roles, emotions, and ideological drift.',
+        items:['Happiness, loyalty, fear','Strikes, coups, rebellions','Education vs corruption'],
+        tags:['Ideology','Unrest','Elites']
+    },
+    {
+        title:'Resources',
+        kicker:'Mega Economy',
+        summary:'Layered resource classes drive strategy and scarcity.',
+        items:['Material → Premium tiers','Cognitive & political resources','Temporal momentum/entropy'],
+        tags:['Scarcity','Markets','Influence']
+    },
+    {
+        title:'Facilities',
+        kicker:'Industrial Spine',
+        summary:'Facilities evolve with efficiency, automation, and sabotage.',
+        items:['Economy, Science, Military, Shadow','Automation & corruption','Power usage & risk'],
+        tags:['Upgrades','Sabotage','Power']
+    },
+    {
+        title:'Fleet Warfare',
+        kicker:'Command Doctrine',
+        summary:'Logistics, morale, and doctrines shape every battle.',
+        items:['Doctrines (swarm, stealth, siege)','Fuel, fatigue, supply chains','Emergency retreat rules'],
+        tags:['Logistics','Morale','Commanders']
+    },
+    {
+        title:'Politics & Nations',
+        kicker:'Galactic Power',
+        summary:'Ideologies and laws determine alliances and betrayals.',
+        items:['Laws, taxes, rights','Voting & influence ranks','Internal alliance politics'],
+        tags:['Diplomacy','Legitimacy','Propaganda']
+    },
+    {
+        title:'Information War',
+        kicker:'Narrative Control',
+        summary:'Intel, misinformation, and reputation decide outcomes.',
+        items:['Propaganda & fake news','Spy networks & leaks','Narrative control victories'],
+        tags:['Espionage','Rumors','Reputation']
+    },
+    {
+        title:'Chaos Engine',
+        kicker:'Emergent Events',
+        summary:'Dynamic crises push players into new strategies.',
+        items:['AI rebellions & anomalies','Economic shocks','Player-driven history'],
+        tags:['Crisis','Events','Stories']
+    },
+    {
+        title:'AI Empires',
+        kicker:'Rival Civilizations',
+        summary:'Adaptive AI with personality, deception, and strategy.',
+        items:['Distinct personalities','Adaptive strategy','Alliances & betrayals'],
+        tags:['Manipulation','Prediction','Proxy wars']
+    },
+    {
+        title:'Legacy System',
+        kicker:'Endgame Memory',
+        summary:'Galaxies end, but history shapes the next cycle.',
+        items:['Relics persist','Ancient civilizations','Meta progression'],
+        tags:['Continuity','Relics','Mythos']
+    }
+];
 function unlockTech(key){
     const t=TechTree[key];
     if(!t.unlocked && state.science>=t.cost){state.science-=t.cost;t.unlocked=true;t.effect();pushNews(`Tech unlocked: ${t.name}`);}
 }
 
 // ================= MARKET =================
-const market = {sell(res,amt){if(state[res]>=amt){state[res]-=amt;state.money+=amt}},buy(res,amt){if(state.money>=amt){state.money-=amt;state[res]+=amt}}}
+const market = {
+    sell(res,amt){
+        if(!(res in marketPrices)) return;
+        if(state[res]>=amt){
+            state[res]-=amt;
+            state.money+=amt*marketPrices[res];
+            marketPrices[res]=Math.min(25,marketPrices[res]+0.02);
+        }
+    },
+    buy(res,amt){
+        if(!(res in marketPrices)) return;
+        const cost=amt*marketPrices[res];
+        if(state.money>=cost){
+            state.money-=cost;
+            state[res]+=amt;
+            marketPrices[res]=Math.max(0.2,marketPrices[res]-0.02);
+        }
+    }
+}
 
 // ================= SHIPS & FLEETS =================
 class Ship {constructor(type){this.type=type;this.modules=[];this.hp=100;this.attack=10;this.speed=1;}
@@ -167,12 +860,166 @@ tick(dt){
 }}
 
 // ================= AI EMPIRES =================
-class AIEmpire {constructor(name){this.name=name;this.power=50+Math.random()*100;this.alliance=null;}}
-state.ai=[new AIEmpire('Orion Union'),new AIEmpire('Nova Pact')];
+class AIEmpire {
+    constructor(name,personality){
+        this.name=name;
+        this.personality=personality;
+        this.power=50+Math.random()*100;
+        this.alliance=null;
+        this.strategy='expand';
+    }
+}
+state.ai=[
+    new AIEmpire('Orion Union','economist'),
+    new AIEmpire('Nova Pact','conqueror'),
+    new AIEmpire('Helix Concord','diplomat')
+];
 state.aiFleets=state.ai.map(a=>new Fleet(a.name,[],`System ${Math.floor(Math.random()*3)}`));
 
+function postChat(author,msg){
+    state.chatLog.unshift(`${author}: ${msg}`);
+    if(state.chatLog.length>16) state.chatLog.pop();
+}
+
+function advanceMacroSystems(){
+    state.momentum=Math.min(100,state.momentum+0.1+state.units.happiness*0.001);
+    state.entropy=Math.min(100,state.entropy+0.05+state.lag*0.02+Math.max(0,20-state.food)*0.003);
+    state.lag=Math.min(50,Math.max(0,(state.planets.length-8)*0.8 + state.entropy*0.05));
+    state.onlinePlayers=Math.max(12,Math.min(999,state.onlinePlayers+Math.floor((Math.random()-0.45)*3)));
+    state.nation.influence=Math.max(0,Math.min(100,state.nation.influence+(state.votingPower*0.002)-(state.entropy*0.003)));
+    state.rankPoints+=Math.max(0, state.momentum*0.05 - state.entropy*0.02);
+    if(state.food<20){state.entropy+=0.5;pushNews('Food shortages increase entropy.');}
+    if(state.momentum>70 && Math.random()<0.05){pushNews('Momentum surge boosts production across the empire.');}
+}
+
+function updateMarket(){
+    const drift=(value,base)=>Math.min(25,Math.max(0.2,value+(Math.random()-0.5)*0.05+(base-1)*0.01));
+    marketPrices.energy=drift(marketPrices.energy,1.0);
+    marketPrices.science=drift(marketPrices.science,1.5);
+    marketPrices.food=drift(marketPrices.food,0.8);
+    marketPrices.steel=drift(marketPrices.steel,2.4);
+    marketPrices.tritium=drift(marketPrices.tritium,4.8);
+    marketPrices.diamonds=drift(marketPrices.diamonds,18);
+}
+
+function aiDecisions(){
+    state.ai.forEach(ai=>{
+        ai.power+=Math.random()*0.5;
+        if(ai.personality==='economist' && Math.random()<0.04){
+            marketPrices.steel=Math.min(25,marketPrices.steel+0.08);
+            ai.strategy='market pressure';
+            pushNews(`${ai.name} cornered steel markets.`);
+        }
+        if(ai.personality==='conqueror' && Math.random()<0.05){
+            const targetSystem=`System ${Math.floor(Math.random()*3)}`;
+            const fleet=state.aiFleets.find(f=>f.owner===ai.name);
+            fleet.system=targetSystem;
+            ai.strategy='forward assault';
+            pushNews(`${ai.name} redeployed a fleet to ${targetSystem}.`);
+        }
+        if(ai.personality==='diplomat' && Math.random()<0.03){
+            state.nation.influence=Math.min(100,state.nation.influence+1.2);
+            ai.strategy='diplomatic web';
+            postChat(ai.name,'Proposing ceasefire terms for outer systems.');
+        }
+        if(Math.random()<0.025){
+            const sabotage=Math.random()*2;
+            state.entropy=Math.min(100,state.entropy+sabotage);
+            pushNews(`${ai.name} executed an information strike (+${sabotage.toFixed(1)} entropy).`);
+        }
+    });
+}
+
+function updateMissions(){
+    state.missions[0].progress=Math.min(state.missions[0].target,Math.floor(state.planets.reduce((a,p)=>a+p.health,0)/10));
+    state.missions[1].progress=Math.min(state.missions[1].target,Math.floor(state.steel));
+    state.missions[2].progress=Math.min(state.missions[2].target,Math.floor(state.votingPower));
+}
+
+function sendMiningFleet(){
+    state.iron+=18;
+    state.coal+=15;
+    state.tritium+=Math.random()<0.35?1:0;
+    shipBlueprints.miner+=1;
+    pushNews('Mining fleet returned with ore, coal, and trace tritium.');
+}
+
+function transferResources(){
+    if(state.steel>=100){
+        state.steel-=100;
+        state.nation.influence=Math.min(100,state.nation.influence+2);
+        state.rankPoints+=20;
+        pushNews('Transferred 100 steel to frontier colonies (+influence).');
+    } else {
+        pushNews('Not enough steel to transfer.');
+    }
+}
+
+function deploySoldiers(){
+    if(state.units.roles.soldiers>=10){
+        state.units.roles.soldiers-=10;
+        state.votingPower+=4;
+        state.rankPoints+=10;
+        pushNews('10 soldiers deployed to contested orbit.');
+    } else {
+        pushNews('Need at least 10 soldiers to deploy.');
+    }
+}
+
+function claimGift(){
+    if(state.giftsClaimed>=1){pushNews('Daily gift already claimed this cycle.'); return;}
+    state.giftsClaimed=1;
+    state.money+=250;
+    state.diamonds+=1;
+    state.premiumCredits+=1;
+    state.brains+=5;
+    pushNews('Alliance gift claimed: +250 money, +1 diamond, +1 premium credit, +5 brains.');
+}
+
+function drawGalaxy3D(){
+    const canvas=document.getElementById('galaxy3d');
+    if(!canvas) return;
+    const ctx=canvas.getContext('2d');
+    const t=Date.now()*0.001;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle='#040714';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    for(let i=0;i<45;i++){
+        const x=(i*97%canvas.width + Math.sin(t+i)*30 + canvas.width)%canvas.width;
+        const y=(i*57%canvas.height + Math.cos(t*0.7+i)*20 + canvas.height)%canvas.height;
+        const z=(Math.sin(t+i*0.4)+1)/2;
+        const size=1+z*2;
+        ctx.fillStyle=`rgba(${120+z*120},${150+z*100},255,${0.35+z*0.6})`;
+        ctx.beginPath();
+        ctx.arc(x,y,size,0,Math.PI*2);
+        ctx.fill();
+    }
+    ctx.strokeStyle='rgba(110,130,255,0.35)';
+    state.playerFleets.forEach((f,idx)=>{
+        const x=100+idx*120+Math.sin(t+idx)*20;
+        const y=90+Math.cos(t*1.3+idx)*30;
+        ctx.beginPath();
+        ctx.moveTo(x,y);
+        ctx.lineTo(x+18,y-8);
+        ctx.lineTo(x+4,y+10);
+        ctx.closePath();
+        ctx.stroke();
+    });
+}
+
 // ================= MULTIVERSE =================
-class Multiverse {constructor(){this.cycles=0;} prestige(){this.cycles++;state.energy=100;state.science=50;state.money=0;state.units=new UnitPool(200);state.planets.forEach(p=>{p.population=50;p.health=100});state.ships=[];state.playerFleets=[];state.aiFleets=state.ai.map(a=>new Fleet(a.name,[],`System ${Math.floor(Math.random()*3)}`));pushNews(`Multiverse reset #${this.cycles}`);}}
+class Multiverse {constructor(){this.cycles=0;} prestige(){
+    this.cycles++;
+    state.energy=100;state.science=50;state.money=0;state.food=80;
+    state.iron=120;state.coal=120;state.steel=60;state.gold=15;state.tritium=8;
+    state.diamonds+=1;state.brains=10;state.votingPower=12;state.rankPoints=0;
+    state.momentum=5;state.entropy=0;state.lag=0;state.giftsClaimed=0;
+    state.units=new UnitPool(200);
+    state.planets.forEach(p=>{p.population=50;p.health=100;p.pollution=5+Math.random()*10});
+    state.ships=[];state.playerFleets=[];
+    state.aiFleets=state.ai.map(a=>new Fleet(a.name,[],`System ${Math.floor(Math.random()*3)}`));
+    pushNews(`Multiverse reset #${this.cycles}`);
+}}
 const multiverse=new Multiverse();
 
 // ================= NEWS =================
@@ -187,65 +1034,126 @@ function buildShip(){
 
 // ================= RENDER =================
 function render(){
-    energy.textContent=Math.floor(state.energy); science.textContent=Math.floor(state.science); money.textContent=Math.floor(state.money);
-    happy.textContent=Math.floor(state.units.happiness); sickness.textContent=Math.floor(state.units.sickness); unassigned.textContent=state.units.unassigned;
-    cycles.textContent=multiverse.cycles;
+    if(!ui.energy) return;
+    ui.energy.textContent=Math.floor(state.energy); ui.science.textContent=Math.floor(state.science); ui.money.textContent=Math.floor(state.money);
+    ui.brains.textContent=Math.floor(state.brains); ui.diamonds.textContent=state.diamonds.toFixed(1);
+    ui.happy.textContent=Math.floor(state.units.happiness); ui.sickness.textContent=Math.floor(state.units.sickness); ui.unassigned.textContent=state.units.unassigned;
+    ui.cycles.textContent=multiverse.cycles;
+    ui.momentum.textContent=state.momentum.toFixed(1);
+    ui.entropy.textContent=state.entropy.toFixed(1);
+    ui.lag.textContent=state.lag.toFixed(1);
+    ui.priceEnergy.textContent=marketPrices.energy.toFixed(2);
+    ui.priceScience.textContent=marketPrices.science.toFixed(2);
+    ui.priceFood.textContent=marketPrices.food.toFixed(2);
+    ui.onlinePlayers.textContent=state.onlinePlayers;
+    ui.nationInfluence.textContent=state.nation.influence.toFixed(1);
+    ui.votingPower.textContent=state.votingPower.toFixed(1);
+    ui.rankPoints.textContent=Math.floor(state.rankPoints);
 
     // Galaxy map
-    galaxyMap.innerHTML='';
+    ui.galaxyMap.innerHTML='';
     const systems=[...new Set(state.planets.map(p=>p.system))];
     systems.forEach(s=>{
         const sysCard=document.createElement('div'); sysCard.className='system-card'; sysCard.textContent=s;
         sysCard.onclick=()=>{state.playerFleets.forEach(f=>f.system=s); pushNews(`Player fleets moved to ${s}`); render();};
-        galaxyMap.appendChild(sysCard);
+        ui.galaxyMap.appendChild(sysCard);
         const planetsInSys=state.planets.filter(p=>p.system===s);
         planetsInSys.forEach(p=>{
-            const pDiv=document.createElement('div'); pDiv.className='planet'; pDiv.textContent=`Planet ${p.id} | Pop ${Math.floor(p.population)} | Health ${p.health}`;
-            galaxyMap.appendChild(pDiv);
+            const pDiv=document.createElement('div'); pDiv.className='planet'; pDiv.textContent=`Planet ${p.id} | Pop ${Math.floor(p.population)} | Health ${p.health.toFixed(1)} | Pollution ${p.pollution.toFixed(1)}`;
+            ui.galaxyMap.appendChild(pDiv);
         });
     });
 
     // Tech Tree
-    techTree.innerHTML='';
+    ui.techTree.innerHTML='';
     Object.keys(TechTree).forEach(k=>{
         const t=TechTree[k];
         const tCard=document.createElement('div'); tCard.className=`tech-card ${t.unlocked?'':'locked'}`; tCard.textContent=`${t.name} (${t.cost})`;
         if(!t.unlocked){const b=document.createElement('button'); b.textContent='Research'; b.onclick=()=>unlockTech(k); tCard.appendChild(b);}
-        techTree.appendChild(tCard);
+        ui.techTree.appendChild(tCard);
+    });
+
+    // Omega Bible Highlights
+    ui.omegaBible.innerHTML='';
+    omegaBibleSections.forEach(section=>{
+        const card=document.createElement('div'); card.className='omega-card';
+        const kicker=document.createElement('div'); kicker.className='omega-kicker'; kicker.textContent=section.kicker;
+        const title=document.createElement('h4'); title.textContent=section.title;
+        const summary=document.createElement('p'); summary.textContent=section.summary;
+        const list=document.createElement('ul');
+        section.items.forEach(item=>{const li=document.createElement('li'); li.textContent=item; list.appendChild(li);});
+        const meta=document.createElement('div'); meta.className='omega-meta';
+        section.tags.forEach(tag=>{const pill=document.createElement('span'); pill.className='omega-pill'; pill.textContent=tag; meta.appendChild(pill);});
+        card.appendChild(kicker);
+        card.appendChild(title);
+        card.appendChild(summary);
+        card.appendChild(list);
+        card.appendChild(meta);
+        ui.omegaBible.appendChild(card);
     });
 
     // Fleets
-    fleetDesigner.innerHTML='';
+    ui.fleetDesigner.innerHTML='';
     state.playerFleets.forEach((f,i)=>{
         const fCard=document.createElement('div'); fCard.className='fleet-card'; fCard.innerHTML=`Fleet ${i+1} | System: ${f.system} | Ships: ${f.ships.length} | Attack: ${f.totalAttack()} | HP: ${f.totalHP()}`;
-        fleetDesigner.appendChild(fCard);
+        ui.fleetDesigner.appendChild(fCard);
     });
 
     // AI
-    ais.innerHTML='';
+    ui.ais.innerHTML='';
     state.ai.forEach(a=>{
         const aiF=state.aiFleets.find(f=>f.owner===a.name);
-        const aDiv=document.createElement('div'); aDiv.className='ai'; aDiv.textContent=`${a.name} | Power ${Math.floor(a.power)} | System: ${aiF.system}`;
-        ais.appendChild(aDiv);
+        const aDiv=document.createElement('div'); aDiv.className='ai'; aDiv.textContent=`${a.name} (${a.personality}) | Power ${Math.floor(a.power)} | ${a.strategy} | System: ${aiF.system}`;
+        ui.ais.appendChild(aDiv);
     });
 
+    // Missions
+    ui.missions.innerHTML=state.missions.map(m=>`<div class='news'>${m.name}: ${m.progress}/${m.target} <em>Reward: ${m.reward}</em></div>`).join('');
+
+    // Chat
+    ui.chat.innerHTML=state.chatLog.map(c=>`<div class='chat-line'>${c}</div>`).join('');
+
     // News
-    news.innerHTML=state.news.map(n=>`<div class='news'>${n}</div>`).join('');
+    ui.news.innerHTML=state.news.map(n=>`<div class='news'>${n}</div>`).join('');
+    drawGalaxy3D();
 }
 
 // ================= GAME LOOP =================
 function tick(){
-    const dt=1; state.units.tick(dt); state.planets.forEach(p=>p.tick(dt)); state.ai.forEach(a=>{}); state.playerFleets.forEach(f=>f.tick(dt)); state.aiFleets.forEach(f=>f.tick(dt));
+    const dt=1;
+    state.units.tick(dt);
+    state.planets.forEach(p=>p.tick(dt));
+    state.playerFleets.forEach(f=>f.tick(dt));
+    state.aiFleets.forEach(f=>f.tick(dt));
+    if(Math.random()<0.05) updateMarket();
+    if(Math.random()<0.04) advanceMacroSystems();
+    if(Math.random()<0.03) aiDecisions();
+    updateMissions();
+    if(Math.random()<0.03) postChat('Alliance Comms','Trade routes stable. Monitoring border fleets.');
     if(Math.random()<0.002) pushNews('Cosmic anomaly detected');
+    if(Math.random()<0.01) state.giftsClaimed=0;
     render(); localStorage.setItem('spacealpha_save',JSON.stringify(state));
 }
 setInterval(tick,1000);
 
 // ================= LOAD =================
-const saved=JSON.parse(localStorage.getItem('spacealpha_save')); if(saved){Object.assign(state,saved);pushNews('Loaded previous session');}
+let saved=null;
+try { saved=JSON.parse(localStorage.getItem('spacealpha_save')); }
+catch { localStorage.removeItem('spacealpha_save'); }
+if(saved){
+    Object.assign(state,saved);
+    state.units=Object.assign(new UnitPool(saved.units?.total || 200), saved.units || {});
+    state.planets=(saved.planets || []).map(p=>Object.assign(new Planet(p.id || 0), p));
+    state.playerFleets=(saved.playerFleets || []).map(f=>Object.assign(new Fleet(f.owner || 'player', [], f.system || 'System 0'), f));
+    state.aiFleets=(saved.aiFleets || []).map(f=>Object.assign(new Fleet(f.owner || 'AI', [], f.system || 'System 0'), f));
+    state.playerFleets.forEach(f=>{f.ships=(f.ships || []).map(s=>Object.assign(new Ship(s.type || 'Fighter'), s));});
+    state.aiFleets.forEach(f=>{f.ships=(f.ships || []).map(s=>Object.assign(new Ship(s.type || 'Fighter'), s));});
+    state.ai=(saved.ai || state.ai).map(a=>Object.assign(new AIEmpire(a.name || 'AI', a.personality || 'economist'), a));
+    state.chatLog = saved.chatLog || [];
+    state.missions = saved.missions || state.missions;
+    pushNews('Loaded previous session');
+}
 render();
 </script>
 </body>
 </html>
-
-
